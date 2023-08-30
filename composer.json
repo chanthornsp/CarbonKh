@@ -1,0 +1,20 @@
+{
+    "name": "chanthorn/carbon-kh",
+    "description": "Covert Date to Khmer Lunar date",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Chanthorn\\CarbonKh\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "chanthornAcademy",
+            "email": "hoeurnchanthorn@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "nesbot/carbon": "^2.69"
+    }
+}
