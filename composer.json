@@ -12,19 +12,9 @@
     ],
     "authors": [
         {
-            "name": "Seanghay",
-            "email": "",
-            "homepage": "https://github.com/seanghay"
-        },
-        {
-            "name": "Thyrith Sor",
-            "email": "",
-            "homepage": "https://github.com/ThyrithSor"
-        },
-        {
             "name": "chanthornAcademy",
             "email": "hoeurnchanthorn@gmail.com",
-            "homepage": ""
+            "homepage": "https://github.com/ChanthornAcademy"
         }
     ],
     "require": {
