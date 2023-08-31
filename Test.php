@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use Chanthorn\CarbonKh\Lunar;
+use Carbon\Carbon;
+use Chanthorn\CarbonKh\ToKhmerDate;
 
-$rusule = Lunar::findLunarDate(Carbon\Carbon::now());
-echo '<pre>';
-print_r($rusule);
-echo '</pre>';
+$date = Carbon::parse('2000-01-01');
+$khmerDate = new ToKhmerDate($date);
+echo $khmerDate->format();

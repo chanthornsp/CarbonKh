@@ -12,7 +12,7 @@ class Lunar
     /**
      * @param int $year
      */
-    public static function aharakoune($year): int
+    private static function aharakoune($year): int
     {
         return ($year * 292207 + 373) % 800;
     }
@@ -20,7 +20,7 @@ class Lunar
     /**
      * @param int $year
      */
-    public static function harakoune($year): int
+    private static function harakoune($year): int
     {
         return (int) floor(($year * 292207 + 373) / 800) + 1;
     }
@@ -28,7 +28,7 @@ class Lunar
     /**
      * @param int $year
      */
-    public static function avomane($year): int
+    private static function avomane($year): int
     {
         return (11 * self::harakoune($year) + 650) % 692;
     }
@@ -36,7 +36,7 @@ class Lunar
     /**
      * @param int $year
      */
-    public static function regularLeap($year): bool
+    private static function regularLeap($year): bool
     {
         return 800 - self::aharakoune($year) <= 207;
     }
@@ -44,7 +44,7 @@ class Lunar
     /**
      * @param int $year
      */
-    public static function bodethey($year): int
+    private static function bodethey($year): int
     {
         $ha = self::harakoune($year);
         return ($ha + floor(($ha * 11 + 650) / 692)) % 30;
@@ -53,7 +53,7 @@ class Lunar
     /**
      * @param Carbon $end
      */
-    public static function lunarDiffDays($end): int
+    private static function lunarDiffDays($end): int
     {
         $count = 0;
         $x = 1970 - 638 + 1;
@@ -71,7 +71,7 @@ class Lunar
     /**
      * @param int $year
      */
-    public static function daysInYear($year): int
+    private static function daysInYear($year): int
     {
         if (self::jaisLeap($year)) {
             return 384;
@@ -85,7 +85,7 @@ class Lunar
     /**
      * @param int $year
      */
-    public static function jaisLeap($year): bool
+    private static function jaisLeap($year): bool
     {
         $b0 = self::bodethey($year);
         $b1 = self::bodethey($year + 1);
@@ -95,7 +95,7 @@ class Lunar
     /**
      * @param int $year
      */
-    public static function langSak($year): array
+    private static function langSak($year): array
     {
         $i = self::sakDay($year);
         return ['month' => 3 + (int) ($i >= 6 && $i <= 29), 'day' => $i];
@@ -104,7 +104,7 @@ class Lunar
     /**
      * @param int $year
      */
-    public static function sakDay($year): int
+    private static function sakDay($year): int
     {
         $bo = self::bodethey($year);
         $bl0 = self::jaisLeap($year - 1);
@@ -120,7 +120,7 @@ class Lunar
     /**
      * @param int $year
      */
-    public static function greatLeap($year): bool
+    private static function greatLeap($year): bool
     {
         $value = self::isProtetinLeap($year);
         if (self::jaisLeap($year) && $value) {
@@ -132,7 +132,7 @@ class Lunar
     /**
      * @param int $year
      */
-    public static function isProtetinLeap($year): bool
+    private static function isProtetinLeap($year): bool
     {
         $avomane0 = self::avomane($year);
         $avomane1 = self::avomane($year + 1);
@@ -156,15 +156,15 @@ class Lunar
     /**
      * @param Carbon $end
      */
-    public static function diffDays($end): int
+    private static function diffDays($end): int
     {
-        return abs(round(($end->millisecond - 286596e5) / (1000 * 60 * 60 * 24)));
+        return abs(round((($end->timestamp * 1000) - 286596e5) / (1000 * 60 * 60 * 24)));
     }
 
     /**
      * @param int $year
      */
-    public static function monthsOfYear($year): array
+    private static function monthsOfYear($year): array
     {
         $ath = self::jaisLeap($year);
         $great = self::greatLeap($year);
@@ -190,17 +190,11 @@ class Lunar
         if ($date === null) {
             $date = Carbon::now();
         }
-        self::$date = $date->subHours(7);
-
+        self::$date = $date->clone()->subHours(7);
         $CE = self::$date->year;
 
         $y = $CE - 638;
-
         $day = abs(self::diffDays(self::$date) - self::lunarDiffDays(self::$date)) + 1;
-
-        var_dump(self::diffDays(self::$date));
-        var_dump(self::lunarDiffDays(self::$date));
-
         $BE = $CE + 543 + ($day > 162 ? 1 : 0);
 
         $len = self::daysInYear($y);
@@ -214,38 +208,22 @@ class Lunar
         $lengthOfYear = self::monthsOfYear($y);
         foreach ($lengthOfYear as $key => $month) {
             if ($day <= $month) {
-                $day -= (int) $month;
-                $m++;
                 break;
             }
+            $day -= $month;
+            $m++;
         }
-
         $sak = self::langSak($y - 1);
         $JE = $y - 1 - ($sak['month'] > $m || ($sak['month'] === $m && $sak['day'] > self::$date->day) ? 1 : 0);
 
-        $yearMonths = [
-            "មិគសិរ",
-            "បុស្ស",
-            "មាឃ",
-            "ផល្គុន",
-            "ចេត្រ",
-            "ពិសាខ",
-            "ជេស្ឋ",
-            "អាសាឍ",
-            "បឋមាសាឍ",
-            "ទុតិយាសាឍ",
-            "ស្រាពណ៍",
-            "ភទ្របទ",
-            "អស្សុជ",
-            "កក្ដិក",
-        ];
-        if (count($lengthOfYear) == 12) {
-            unset($yearMonths[8]);
-            unset($yearMonths[9]);
-        } else {
-            unset($yearMonths[7]);
-        }
-
+        $yearMonths = Constant::lunarMonths();
+        $yearMonths = array_values(array_filter($yearMonths, function ($item, $key) use ($lengthOfYear) {
+            if (count($lengthOfYear) == 12) {
+                return $key != 8 && $key != 9;
+            } else {
+                return $key != 7;
+            }
+        }, ARRAY_FILTER_USE_BOTH));
         $ZODIAC_YEARS = [
             "ជូត",
             "ឆ្លូវ",
@@ -260,6 +238,10 @@ class Lunar
             "ច",
             "កុរ",
         ];
+
+        // dump(Constant::weekDays(1));
+        // dump(Constant::preparse('១២៣៤៥៦៧៨៩០'));
+        // dd(Constant::postformat('1234567890'));
 
         return [
             'day' => $day,
