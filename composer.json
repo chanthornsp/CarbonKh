@@ -24,6 +24,9 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
+        "files": [
+            "src/helper_fun.php"
+        ],
         "psr-4": {
             "Chanthorn\\CarbonKh\\": "src/"
         }
