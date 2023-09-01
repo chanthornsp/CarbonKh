@@ -12,5 +12,5 @@ use Carbon\Carbon;
 echo khmerDate('2024-01-01')->format();
 
 print_r(khmerDate('2024-01-01')::khNewYear());
-
+// or
 print_r(KhmerNewYearDate(2024));
