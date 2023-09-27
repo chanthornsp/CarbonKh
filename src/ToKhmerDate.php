@@ -79,15 +79,14 @@ class ToKhmerDate
                 'b' => function () use ($beYear) {
                     return $beYear;
                 },
-                'c' => function () use ($beYear) {
-                    return $beYear;
+                'c' => function () {
+                    return self::$date->year;
                 },
                 'j' => function () use ($lunar) {
                     return $lunar['years']['JE'];
                 },
             ];
             $result = preg_replace_callback('/[a-zA-Z]/', function ($matches) use ($formatRules) {
-
                 // fix  Undefined array key 
                 if (!isset($formatRules[$matches[0]])) {
                     return $matches[0];
