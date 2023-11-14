@@ -9,7 +9,7 @@ use Carbon\Carbon;
 // $khmerDate = new ToKhmerDate($date);
 // echo $khmerDate->format();
 
-echo khmerDate('2024-01-01')->format();
+echo khmerDate()->format();
 
 print_r(khmerDate('2024-01-01')::khNewYear());
 // or
