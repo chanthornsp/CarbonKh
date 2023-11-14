@@ -35,7 +35,7 @@ class Constant
             "ស្រាពណ៍",
             "ភទ្របទ",
             "អស្សុជ",
-            "កក្ដិក"
+            "កត្តិក"
         ];
         if ($month) {
             if ($month > 13 && $month < 0) return 'Undefined';
