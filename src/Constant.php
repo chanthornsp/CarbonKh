@@ -52,7 +52,7 @@ class Constant
     public static function weekDays(int $day): string
     {
         if ($day > 6 && $day < 0) return 'Undefined';
-        return  ['អាទិត្យ', 'ច័ន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'][$day];
+        return  ['អាទិត្យ', 'ចន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'][$day];
     }
 
     /**
