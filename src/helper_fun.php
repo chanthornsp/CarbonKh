@@ -5,7 +5,7 @@ use Chanthorn\CarbonKh\ToKhmerDate;
 use Chanthorn\CarbonKh\KhmerNewYear;
 
 if (!function_exists('khmerDate')) {
-    function khmerDate(Carbon|string $date = null): ToKhmerDate
+    function khmerDate($date = null): ToKhmerDate
     {
         $date = $date ? Carbon::parse($date) : Carbon::now();
         return new ToKhmerDate($date);
